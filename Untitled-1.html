@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BONAM ANIRUDH NAIDU | Creative Developer & Designer</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Typed.js for typing effect -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e7eb;
+            cursor: none; /* Hide default cursor */
+        }
+        
+        /* Custom gradient text */
+        .text-gradient {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        /* Glassmorphism effect for Navbar and Cards */
+        .glass-effect {
+            background: rgba(23, 23, 23, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Scroll-based animation initial state */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Scroll-based animation final state */
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Project card filter transition */
+        .project-card {
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        
+        .project-card.hide {
+            transform: scale(0.9);
+            opacity: 0;
+            display: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #38bdf8;
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #38bdf8;
+        }
+        body:hover .cursor-dot, body:hover .cursor-outline {
+            opacity: 1;
+        }
+        /* Cursor hover effect */
+        .cursor-interact {
+            transform: translate(-50%, -50%) scale(1.5);
+            border-color: #c084fc;
+        }
+
+        /* Dynamic Blob Animation */
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+        @keyframes blob-animate {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        .animate-blob { animation: blob-animate 8s infinite ease-in-out; }
+
+        /* Modal Styles */
+        .modal-enter { animation: fadeInScaleUp 0.3s ease-out forwards; }
+        
+        /* Floating effect for profile picture */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Background Gradient Blobs -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- ===== HEADER / NAVIGATION ===== -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gradient cursor-pointer">ANIRUDH NAIDU</a>
+            
+            <div class="hidden md:flex items-center space-x-8 glass-effect px-6 py-2 rounded-full">
+                <a href="#hero" class="hover:text-sky-400 transition-colors cursor-pointer">Home</a>
+                <a href="#skills" class="hover:text-sky-400 transition-colors cursor-pointer">Skills</a>
+                <a href="#projects" class="hover:text-sky-400 transition-colors cursor-pointer">Projects</a>
+                <a href="#contact" class="hover:text-sky-400 transition-colors cursor-pointer">Contact</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden z-50 cursor-pointer">
+                <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div id="mobile-menu" class="hidden md:hidden absolute top-0 left-0 w-full h-screen glass-effect flex flex-col justify-center items-center space-y-8 text-2xl">
+                <a href="#hero" class="mobile-link hover:text-sky-400 transition-colors cursor-pointer">Home</a>
+                <a href="#skills" class="mobile-link hover:text-sky-400 transition-colors cursor-pointer">Skills</a>
+                <a href="#projects" class="mobile-link hover:text-sky-400 transition-colors cursor-pointer">Projects</a>
+                <a href="#contact" class="mobile-link hover:text-sky-400 transition-colors cursor-pointer">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6">
+
+        <!-- ===== HERO SECTION ===== -->
+        <section id="hero" class="min-h-screen flex items-center">
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="text-center md:text-left scroll-animate">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                        Hi, I'm <span class="text-gradient">BONAM ANIRUDH NAIDU</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-400 mb-8">
+                        I'm a <span id="typing-effect"></span>
+                    </p>
+                    <div class="flex justify-center md:justify-start gap-4 mb-8">
+                        <!-- IMPORTANT: Replace this with the correct path to your resume file -->
+                        <a href="./path/to/your/resume.pdf" download="BONAM_ANIRUDH_NAIDU_RESUME.pdf" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 inline-flex items-center cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            Download Resume
+                        </a>
+                    </div>
+                     <div class="flex justify-center md:justify-start space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-sky-400 transition-colors cursor-pointer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/></svg></a>
+                         <a href="#" class="text-gray-400 hover:text-sky-400 transition-colors cursor-pointer" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+                         <a href="#" class="text-gray-400 hover:text-sky-400 transition-colors cursor-pointer" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M22 4s-.7 2.1-2 3.4c1.6 1.4 3.3 4.9 3.3 4.9s-1.4 1.4-3.3 1.4c-1 .8-2.1 1.4-3.3 1.4s-1.4-1.4-2.8-1.4c-1.4 0-2.8 1.4-4.2 1.4s-1.4-1.4-2.8-1.4c-1.4-1.4-2.8-1.4-2.8-1.4s.7-1.4 1.4-2.8c-1.4-1.4-2.8-2.8-2.8-2.8s1.4-.7 2.8-.7c1.4 0 2.8-1.4 2.8-2.8s1.4-1.4 2.8-1.4 2.8 1.4 2.8 1.4z"/></svg></a>
+                    </div>
+                </div>
+                <div class="flex justify-center scroll-animate" style="animation: float 6s ease-in-out infinite;">
+                    <div class="relative group w-72 h-72 md:w-96 md:h-96">
+                        <div class="w-full h-full rounded-full bg-gradient-to-tr from-sky-400 via-cyan-500 to-sky-600 p-1 animate-pulse hover:animate-none transition duration-500 ease-in-out">
+                            <div class="w-full h-full rounded-full bg-gray-900 p-1">
+                                <!-- IMPORTANT: Replace this with the correct path to your image file -->
+                                <img src="C:\Users\hi\Desktop\protfolio\Untitled design.png" alt="BONAM ANIRUDH NAIDU Profile Picture"
+                                     class="rounded-full w-full h-full object-cover border-4 border-white shadow-xl transform group-hover:scale-105 transition duration-500 ease-in-out">
+                            </div>
+                        </div>
+                        <span class="absolute inset-0 rounded-full ring-4 ring-cyan-400/40 group-hover:ring-sky-500/60 transition-all duration-500 animate-[spin_10s_linear_infinite] z-[-1]"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SKILLS SECTION ===== -->
+        <section id="skills" class="py-20">
+            <div class="scroll-animate text-center">
+                <h2 class="text-4xl font-bold mb-4">My Tech Stack</h2>
+                <p class="text-gray-400 mb-12">Technologies I love to work with.</p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center">
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Python" /><p class="font-semibold">Python</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Java" /><p class="font-semibold">Java</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="HTML" /><p class="font-semibold">HTML5</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="CSS" /><p class="font-semibold">CSS3</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://numpy.org/images/logo.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="NumPy" /><p class="font-semibold">NumPy</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://pandas.pydata.org/static/img/pandas_mark.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Pandas" /><p class="font-semibold">Pandas</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Scikit-learn" /><p class="font-semibold">Scikit-learn</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="TensorFlow" /><p class="font-semibold">TensorFlow</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://pytorch.org/assets/images/pytorch-logo.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="PyTorch" /><p class="font-semibold">PyTorch</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://raw.githubusercontent.com/AlexeyAB/darknet/master/docs/yolo-logo.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300 object-contain" alt="YOLO" /><p class="font-semibold">YOLO</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://img.icons8.com/color/480/power-bi.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Power BI" /><p class="font-semibold">Power BI</p></div>
+                <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer"><img src="https://img.icons8.com/color/480/microsoft-excel-2019--v1.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Excel" /><p class="font-semibold">MS Excel</p></div>
+                    <!-- Photoshop -->
+    <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer">
+      <img src="https://img.icons8.com/color/480/adobe-photoshop--v1.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Photoshop" />
+      <p class="font-semibold">Photoshop</p>
+    </div>
+
+    <!-- Premiere Pro -->
+    <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer">
+      <img src="https://img.icons8.com/color/480/adobe-premiere-pro--v1.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Premiere Pro" />
+      <p class="font-semibold">Premiere Pro</p>
+    </div>
+
+    <!-- MongoDB -->
+    <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="MongoDB" />
+      <p class="font-semibold">MongoDB</p>
+    </div>
+
+    <!-- Machine Learning -->
+    <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer">
+      <img src="https://img.icons8.com/fluency/48/artificial-intelligence.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="ML" />
+      <p class="font-semibold">Machine Learning</p>
+    </div>
+
+    <!-- NLP -->
+    <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer">
+      <img src="https://img.icons8.com/color/96/nlp.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="NLP" />
+      <p class="font-semibold">NLP</p>
+    </div>
+
+    <!-- Data Analysis -->
+    <div class="scroll-animate glass-effect rounded-lg p-6 flex flex-col items-center justify-center group cursor-pointer">
+      <img src="https://img.icons8.com/color/96/data-configuration.png" class="w-16 h-16 mb-4 group-hover:scale-110 transition-transform duration-300" alt="Data Analysis" />
+      <p class="font-semibold">Data Analysis</p>
+    </div>
+            </div>
+        </section>
+
+        <!-- ===== PROJECTS SECTION ===== -->
+        <section id="projects" class="py-20">
+            <div class="scroll-animate">
+                <h2 class="text-4xl font-bold text-center mb-4">My Projects</h2>
+                <p class="text-gray-400 text-center mb-12">A selection of my favorite works.</p>
+
+                <div id="filter-buttons" class="flex justify-center flex-wrap gap-4 mb-12">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="ml">Machine Learning</button>
+                    <button class="filter-btn" data-category="web">Web Dev</button>
+                </div>
+            </div>
+
+            <div id="project-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section id="contact" class="py-20">
+  <div class="scroll-animate max-w-2xl mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-6">Get In Touch</h2>
+    <p class="text-gray-400 mb-8">Click the button below to reach out via our contact form.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScDipme89gNWqoPQk7KGaUwa1Tlll20yoHB4RQ4SiYeuws87g/viewform?usp=header" target="_blank" rel="noopener noreferrer">
+      <button class="bg-gradient-to-r from-sky-500 to-blue-600 text-white font-semibold py-3 px-10 rounded-full shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-300">
+        Open Contact Form
+      </button>
+    </a>
+  </div>
+</section>
+
+    </main>
+
+    <footer class="py-8 text-center text-gray-500">
+        <p>&copy; 2024 BONAM ANIRUDH NAIDU. All rights reserved.</p>
+    </footer>
+
+    <!-- ===== PROJECT MODAL ===== -->
+    <div id="project-modal" class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4 cursor-pointer">
+        <div id="modal-content" class="glass-effect rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-8 relative cursor-default modal-enter">
+            <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="grid md:grid-cols-2 gap-8">
+                <img id="modal-img" src="" alt="Project Image" class="rounded-lg w-full h-auto object-cover">
+                <div>
+                    <h2 id="modal-title" class="text-3xl font-bold mb-4 text-gradient"></h2>
+                    <div id="modal-tags" class="flex flex-wrap gap-2 mb-4"></div>
+                    <p id="modal-description" class="text-gray-300 mb-6"></p>
+                    <a id="modal-link" href="#" target="_blank" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-6 rounded-full transition-all duration-300 transform hover:scale-105 inline-flex items-center cursor-pointer">
+                        View on GitHub &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- PROJECT DATA ---
+        const projectData = [
+            {
+                id: 1,
+                title: ' Drone and Web-Based Medicinal Plant Analysis Using Machine Learning',
+                category: 'ml',
+                image: 'file:///C:/Users/hi/Desktop/protfolio/img_5.jpg',
+                description:'This innovative project combines drone technology, machine learning, and web development to accurately detect and classify medicinal plants in real-world environments.Using high-resolution drone imagery, the system captures leaf and plant data, which is then analyzed using YOLOv5 and custom-trained deep learning models to identify various medicinal plant species. A dedicated web platform presents this data in an interactive and accessible format, making it ideal for researchers, farmers, and herbal medicine professionals.',
+
+
+                tags: ['Python', 'TensorFlow', ' OpenCV', 'YOLO V5',],
+                liveLink: '#'
+            },
+            {
+                id: 2,
+                title: ' HotelEase – A Responsive Hotel Booking Website',
+                category: 'web dev',
+                image: 'file:///C:/Users/hi/Desktop/protfolio/img_2.jpg',
+                description: 'HotelEase is a modern, intuitive, and fully responsive hotel booking website designed to provide a seamless and enjoyable experience for travelers seeking the perfect accommodation. Built with user-centric design principles, HotelEase ensures optimal viewing and interaction across all devices – from desktops and laptops to tablets and smartphones. Our platform simplifies the entire booking journey, from discovery to confirmation, making it easy for users to find, compare, and reserve their ideal hotel stay with confidence.',
+                tags: ['HTML5 & CSS3', 'Tailwind CSS / Bootstrap', 'JavaScript'],
+                liveLink: '#'
+            },
+            {
+                id: 3,
+                title: 'Bhagya Lakshmi Exports – Traditional Crochet Lace Export Website',
+                category: 'ml',
+                image: 'file:///C:/Users/hi/Desktop/protfolio/img_4.jpg',
+                description: 'Implemented a real-time object detection system using the YOLO (You Only Look Once) algorithm. The model can identify and locate multiple objects in video streams with high precision.',
+                tags: ['HTML5 & CSS3', 'Tailwind CSS / Bootstrap', 'JavaScript'],
+                liveLink: '#https://www.bhagyalakshmiexports.in/'
+            },
+        ];
+
+        // --- DYNAMIC PROJECT CARD GENERATION ---
+        const projectGrid = document.getElementById('project-grid');
+        const generateCards = () => {
+            projectGrid.innerHTML = ''; // Clear existing cards
+            projectData.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card scroll-animate';
+                card.dataset.category = project.category;
+                card.dataset.projectId = project.id;
+                card.innerHTML = `
+                    <div class="glass-effect rounded-lg overflow-hidden group cursor-pointer">
+                        <img src="${project.image}" alt="${project.title}" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">${project.title}</h3>
+                            <p class="text-gray-400 mb-4 truncate">${project.description}</p>
+                            <a href="#" data-project-id="${project.id}" class="view-details-btn text-sky-400 hover:text-sky-300 font-semibold">View Details &rarr;</a>
+                        </div>
+                    </div>
+                `;
+                projectGrid.appendChild(card);
+            });
+        };
+        generateCards();
+
+
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: 'forwards' });
+        });
+        document.querySelectorAll('a, button, .cursor-pointer').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-interact'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-interact'));
+        });
+
+        // --- TYPED.JS EFFECT ---
+        new Typed('#typing-effect', {
+            strings: ['Data Scientist.', 'ML Engineer.', 'Python Developer.'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true,
+            backDelay: 2000,
+        });
+
+        // --- HEADER SCROLL EFFECT ---
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('glass-effect', window.scrollY > 50);
+        });
+
+        // --- MOBILE MENU TOGGLE ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuOpenIcon = document.getElementById('menu-open-icon');
+        const menuCloseIcon = document.getElementById('menu-close-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const toggleMenu = () => {
+            mobileMenu.classList.toggle('hidden');
+            menuOpenIcon.classList.toggle('hidden');
+            menuCloseIcon.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+        };
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --- PROJECT FILTERING ---
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const baseBtnClass = "py-2 px-5 rounded-full transition-all duration-300 text-gray-400 border border-gray-600 hover:border-sky-500 hover:text-sky-300 cursor-pointer";
+        const activeBtnClass = "bg-sky-500/20 text-sky-300 border-sky-500";
+        filterButtons.forEach(button => {
+            button.className = baseBtnClass;
+            if (button.classList.contains('active')) button.className += ` ${activeBtnClass}`;
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.className = baseBtnClass);
+                button.className += ` ${activeBtnClass}`;
+                const category = button.dataset.category;
+                document.querySelectorAll('.project-card').forEach(card => {
+                    const cardCategory = card.dataset.category;
+                    const shouldShow = category === 'all' || cardCategory === category;
+                    if (!shouldShow) {
+                        card.classList.add('hide');
+                        setTimeout(() => card.style.display = 'none', 400);
+                    } else {
+                        card.style.display = 'block';
+                        setTimeout(() => card.classList.remove('hide'), 10);
+                    }
+                });
+            });
+        });
+
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('project-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const openModal = (projectId) => {
+            const project = projectData.find(p => p.id == projectId);
+            if (!project) return;
+            
+            document.getElementById('modal-img').src = project.image;
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-description').textContent = project.description;
+            document.getElementById('modal-link').href = project.liveLink;
+            
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = '';
+            project.tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'bg-sky-500/20 text-sky-300 text-sm font-semibold px-3 py-1 rounded-full';
+                tagEl.textContent = tag;
+                tagsContainer.appendChild(tagEl);
+            });
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.classList.add('overflow-hidden');
+        };
+        const closeModal = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        projectGrid.addEventListener('click', (e) => {
+            if (e.target.closest('.view-details-btn')) {
+                e.preventDefault();
+                const projectId = e.target.closest('.view-details-btn').dataset.projectId;
+                openModal(projectId);
+            }
+        });
+        
+        modalCloseBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal(); // Close if backdrop is clicked
+        });
+
+
+        // --- SCROLL-BASED ANIMATIONS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
+
+        // --- CONTACT FORM HANDLING ---
+        const contactForm = document.getElementById('contact-form');
+        const formMessage = document.getElementById('form-message');
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.className = "w-full p-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all cursor-pointer";
+        });
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formMessage.textContent = 'Thank you! Your message has been sent.';
+            contactForm.reset();
+            setTimeout(() => formMessage.textContent = '', 5000);
+        });
+    });
+    </script>
+</body>
+</html>
